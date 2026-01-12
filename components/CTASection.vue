@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import PixelButton from './PixelButton.vue'
-import { pixelFadeIn, pixelPopIn, usePixelInView } from '~/composables/usePixelAnimation'
-
-const { target, isVisible } = usePixelInView('-10%')
+import { pixelFadeIn, pixelPopIn } from '~/composables/usePixelAnimation'
 </script>
 
 <template>
-  <section class="py-32 px-6" ref="target">
+  <section class="py-32 px-6">
     <div class="max-w-3xl mx-auto text-center">
       <div
         v-motion
         :variants="pixelFadeIn"
-        :initial="pixelFadeIn.hidden"
-        :visible="isVisible ? pixelFadeIn.visible : pixelFadeIn.hidden"
+        :initial="pixelFadeIn.initial"
+        :visible-once="pixelFadeIn.visibleOnce"
         class="pixel-card p-12 relative"
         :style="{
           boxShadow: '6px 6px 0 0 hsl(160 50% 35% / 0.4), inset 0 0 30px hsl(160 60% 65% / 0.05)',
@@ -52,11 +50,11 @@ const { target, isVisible } = usePixelInView('-10%')
             :key="i"
             v-motion
             :initial="{ opacity: 0, scale: 0 }"
-            :visible="isVisible ? {
+            :visible-once="{
               opacity: 1,
               scale: 1,
               rotate: [0, 10, -10, 0],
-            } : {}"
+            }"
             :transition="{
               opacity: { delay: 300 + i * 100, duration: 300 },
               scale: { delay: 300 + i * 100, type: 'spring', stiffness: 300 },
@@ -72,20 +70,20 @@ const { target, isVisible } = usePixelInView('-10%')
           v-motion
           class="font-pixel-cn text-2xl md:text-3xl mb-4 leading-relaxed"
           :initial="{ opacity: 0, y: 20 }"
-          :visible="isVisible ? { opacity: 1, y: 0 } : {}"
+          :visible-once="{ opacity: 1, y: 0 }"
           :transition="{ delay: 200, type: 'spring', stiffness: 200 }"
         >
           Ready to
           <span
             v-motion
             class="text-gradient ml-2"
-            :animate="isVisible ? {
+            :animate="{
               textShadow: [
                 '0 0 10px hsl(160 60% 65% / 0.3)',
                 '0 0 25px hsl(160 60% 65% / 0.5)',
                 '0 0 10px hsl(160 60% 65% / 0.3)',
               ],
-            } : {}"
+            }"
             :transition="{ duration: 1500, repeat: Infinity }"
           >
             Build?
@@ -96,7 +94,7 @@ const { target, isVisible } = usePixelInView('-10%')
           v-motion
           class="font-pixel-cn text-xl text-muted-foreground mb-8"
           :initial="{ opacity: 0 }"
-          :visible="isVisible ? { opacity: 1 } : {}"
+          :visible-once="{ opacity: 1 }"
           :transition="{ delay: 400 }"
         >
           加入我们，48 小时将你的疯狂想法变成现实！
@@ -105,8 +103,8 @@ const { target, isVisible } = usePixelInView('-10%')
         <div
           v-motion
           :variants="pixelPopIn"
-          :initial="pixelPopIn.hidden"
-          :visible="isVisible ? pixelPopIn.visible : pixelPopIn.hidden"
+          :initial="pixelPopIn.initial"
+          :visible-once="pixelPopIn.visibleOnce"
         >
           <PixelButton>
             立即报名

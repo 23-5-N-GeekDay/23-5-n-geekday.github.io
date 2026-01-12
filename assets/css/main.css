@@ -68,6 +68,9 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'zpix', var(--font-pixel-cn);
     image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
     background: linear-gradient(135deg,
       hsl(250 60% 12%) 0%,
       hsl(260 55% 18%) 50%,
@@ -89,18 +92,26 @@
 
   .font-pixel {
     font-family: 'Press Start 2P', cursive;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
   }
 
   .font-pixel-cn {
     font-family: 'zpix', 'VT323', monospace;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
   }
 
   .font-pixel-mixed {
     font-family: 'Press Start 2P', 'zpix', cursive;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
   }
 
   .font-pixel-body {
     font-family: 'VT323', 'zpix', monospace;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
   }
 }
 

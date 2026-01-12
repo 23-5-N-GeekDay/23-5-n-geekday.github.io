@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { pixelSlideIn, pixelFadeIn, pixelCardFloat, pixelBuildIn, staggerContainer, usePixelInView } from '~/composables/usePixelAnimation'
+import { pixelSlideIn, pixelFadeIn, pixelCardFloat, pixelBuildIn, staggerContainer } from '~/composables/usePixelAnimation'
 
 const details = [
   { icon: '📅', label: '日期', value: '2026年2月15-16日' },
@@ -16,7 +16,7 @@ const benefits = [
 
 const detailRow = {
   hidden: { opacity: 0, x: -20 },
-  visible: {
+  visibleOnce: {
     opacity: 1,
     x: 0,
     transition: {
@@ -29,7 +29,7 @@ const detailRow = {
 
 const benefitCard = {
   hidden: { opacity: 0, x: 30, rotateY: -10 },
-  visible: {
+  visibleOnce: {
     opacity: 1,
     x: 0,
     rotateY: 0,
@@ -41,17 +41,16 @@ const benefitCard = {
   },
 }
 
-const { target, isVisible } = usePixelInView('-10%')
 </script>
 
 <template>
-  <section id="venue" class="py-24 px-6" ref="target">
+  <section id="venue" class="py-24 px-6">
     <div class="max-w-5xl mx-auto">
       <div
         v-motion
         :variants="pixelSlideIn"
-        :initial="pixelSlideIn.hidden"
-        :visible="isVisible ? pixelSlideIn.visible : pixelSlideIn.hidden"
+        :initial="pixelSlideIn.initial"
+        :visible-once="pixelSlideIn.visibleOnce"
         class="mb-8"
       >
         <span class="font-pixel text-xs text-primary">
@@ -62,8 +61,8 @@ const { target, isVisible } = usePixelInView('-10%')
       <h2
         v-motion
         :variants="pixelFadeIn"
-        :initial="pixelFadeIn.hidden"
-        :visible="isVisible ? pixelFadeIn.visible : pixelFadeIn.hidden"
+        :initial="pixelFadeIn.initial"
+        :visible-once="pixelFadeIn.visibleOnce"
         class="font-pixel-cn text-2xl md:text-3xl mb-12 leading-relaxed"
       >
         活动信息
@@ -73,8 +72,8 @@ const { target, isVisible } = usePixelInView('-10%')
         <div
           v-motion
           :variants="pixelCardFloat"
-          :initial="pixelCardFloat.hidden"
-          :visible="isVisible ? pixelCardFloat.visible : pixelCardFloat.hidden"
+          :initial="pixelCardFloat.initial"
+          :visible-once="pixelCardFloat.visibleOnce"
           class="pixel-card p-6"
         >
           <h3 class="font-pixel-cn text-sm mb-6 text-primary">◆ 基本信息</h3>
@@ -82,8 +81,8 @@ const { target, isVisible } = usePixelInView('-10%')
             v-motion
             class="space-y-4"
             :variants="staggerContainer"
-            :initial="staggerContainer.hidden"
-            :visible="isVisible ? staggerContainer.visible : staggerContainer.hidden"
+            :initial="staggerContainer.initial"
+            :visible-once="staggerContainer.visibleOnce"
           >
             <div
               v-for="item in details"
@@ -91,7 +90,7 @@ const { target, isVisible } = usePixelInView('-10%')
               v-motion
               :variants="detailRow"
               :initial="detailRow.hidden"
-              :visible="isVisible ? detailRow.visible : detailRow.hidden"
+              :visible-once="detailRow.visible"
               class="flex justify-between items-center border-b border-border/30 pb-3"
               :hover="{ x: 5 }"
             >
@@ -107,16 +106,16 @@ const { target, isVisible } = usePixelInView('-10%')
           v-motion
           class="space-y-4"
           :variants="staggerContainer"
-          :initial="staggerContainer.hidden"
-          :visible="isVisible ? staggerContainer.visible : staggerContainer.hidden"
+          :initial="staggerContainer.initial"
+          :visible-once="staggerContainer.visibleOnce"
           style="perspective: 800px"
         >
           <h3
             v-motion
             class="font-pixel-cn text-sm mb-6 text-primary"
             :variants="pixelFadeIn"
-            :initial="pixelFadeIn.hidden"
-            :visible="isVisible ? pixelFadeIn.visible : pixelFadeIn.hidden"
+            :initial="pixelFadeIn.initial"
+            :visible-once="pixelFadeIn.visibleOnce"
           >
             ◆ 参赛者福利
           </h3>
@@ -126,7 +125,7 @@ const { target, isVisible } = usePixelInView('-10%')
             v-motion
             :variants="benefitCard"
             :initial="benefitCard.hidden"
-            :visible="isVisible ? benefitCard.visible : benefitCard.hidden"
+            :visible-once="benefitCard.visible"
             class="pixel-card p-4 flex items-center gap-4"
             :hover="{ x: 8, rotateY: 5, boxShadow: '6px 6px 0 0 hsl(35 95% 50% / 0.3)' }"
             :transition="{ type: 'spring', stiffness: 300 }"

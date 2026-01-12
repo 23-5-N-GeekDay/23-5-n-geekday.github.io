@@ -29,11 +29,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts=false
+        env:
+          PNPM_IGNORE_SCRIPTS: 'false'
+          NPM_CONFIG_IGNORE_SCRIPTS: 'false'
+
+      - name: Rebuild better-sqlite3 (ensure native binding)
+        run: pnpm rebuild better-sqlite3
+        env:
+          npm_config_build_from_source: 'true'
 
       - name: Generate static site
         run: pnpm run generate

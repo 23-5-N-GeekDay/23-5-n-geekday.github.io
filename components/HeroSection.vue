@@ -1,8 +1,57 @@
 <script setup lang="ts">
 import PixelButton from './PixelButton.vue'
 import { useRegisterModal } from '~/composables/useRegisterModal'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
 const { openModal } = useRegisterModal()
+
+// Countdown to 2026-02-23 00:00:00 (Beijing Time)
+const targetDate = new Date('2026-02-23T00:00:00+08:00').getTime()
+const now = ref(Date.now())
+let timer: ReturnType<typeof setInterval> | null = null
+
+// Track previous values for flip animation
+const prevSeconds = ref(-1)
+const isFlipping = ref(false)
+
+const countdown = computed(() => {
+  const diff = targetDate - now.value
+  
+  if (diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, isOver: true }
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+  
+  return { days, hours, minutes, seconds, isOver: false }
+})
+
+// Watch for second changes to trigger flip animation
+watch(() => countdown.value.seconds, (newVal, oldVal) => {
+  if (oldVal !== undefined && newVal !== oldVal) {
+    prevSeconds.value = oldVal
+    isFlipping.value = true
+    setTimeout(() => {
+      isFlipping.value = false
+    }, 600)
+  }
+})
+
+// Format number to always have 2 digits
+const pad = (n: number) => n.toString().padStart(2, '0')
+
+onMounted(() => {
+  timer = setInterval(() => {
+    now.value = Date.now()
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer)
+})
 </script>
 
 <template>
@@ -100,6 +149,7 @@ const { openModal } = useRegisterModal()
         </div>
       </div>
 
+
       <p
         v-motion
         :initial="{ opacity: 0 }"
@@ -123,6 +173,66 @@ const { openModal } = useRegisterModal()
         <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-widest">
           <span class="font-pixel mario-text">GEEKDAY</span>
         </h2>
+      </div>
+
+      <!-- Countdown Timer -->
+      <div
+        v-if="!countdown.isOver"
+        v-motion
+        :initial="{ opacity: 0 }"
+        :visible="{ opacity: 1 }"
+        :transition="{ duration: 600, delay: 850 }"
+        class="mb-6"
+      >
+        <div class="flip-countdown">
+          <div class="flip-item">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <span class="flip-num font-mono">{{ countdown.days }}</span>
+              </div>
+            </div>
+            <span class="flip-unit">天</span>
+          </div>
+          <div class="flip-item">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <span class="flip-num font-mono">{{ pad(countdown.hours) }}</span>
+              </div>
+            </div>
+            <span class="flip-unit">时</span>
+          </div>
+          <div class="flip-item">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <span class="flip-num font-mono">{{ pad(countdown.minutes) }}</span>
+              </div>
+            </div>
+            <span class="flip-unit">分</span>
+          </div>
+          <div class="flip-item">
+            <div class="flip-card-wrapper">
+              <!-- Static background showing new value -->
+              <div class="flip-card-static">
+                <div class="flip-half flip-half-top">
+                  <span class="flip-num font-mono">{{ pad(countdown.seconds) }}</span>
+                </div>
+                <div class="flip-half flip-half-bottom">
+                  <span class="flip-num font-mono">{{ pad(countdown.seconds) }}</span>
+                </div>
+              </div>
+              <!-- Animated flipping card -->
+              <div v-if="isFlipping" class="flip-card-animated">
+                <div class="flip-panel flip-panel-top" :class="{ 'do-flip': isFlipping }">
+                  <span class="flip-num font-mono">{{ pad(prevSeconds >= 0 ? prevSeconds : countdown.seconds) }}</span>
+                </div>
+                <div class="flip-panel flip-panel-bottom" :class="{ 'do-flip-up': isFlipping }">
+                  <span class="flip-num font-mono">{{ pad(countdown.seconds) }}</span>
+                </div>
+              </div>
+            </div>
+            <span class="flip-unit">秒</span>
+          </div>
+        </div>
       </div>
 
       <div
@@ -342,6 +452,270 @@ const { openModal } = useRegisterModal()
   
   .keycap-group {
     gap: 0.75rem;
+  }
+}
+
+/* Flip Clock Countdown */
+.flip-countdown {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  perspective: 400px;
+}
+
+.flip-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flip-card {
+  position: relative;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(50, 45, 85, 0.95) 0%,
+    rgba(50, 45, 85, 0.95) 49%,
+    rgba(35, 30, 65, 0.98) 50%,
+    rgba(35, 30, 65, 0.98) 100%
+  );
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.flip-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* Horizontal line in middle */
+.flip-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+/* Small notches on sides */
+.flip-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  margin-top: -1px;
+  background: 
+    linear-gradient(90deg, 
+      rgba(0,0,0,0.3) 0%, 
+      transparent 4%, 
+      transparent 96%, 
+      rgba(0,0,0,0.3) 100%
+    );
+  z-index: 3;
+}
+
+.flip-num {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: rgba(240, 230, 255, 0.95);
+  text-align: center;
+  line-height: 1;
+}
+
+.flip-unit {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.15em;
+  font-weight: 500;
+}
+
+/* ========== New Flip Animation Styles ========== */
+
+/* Wrapper for the seconds flip card */
+.flip-card-wrapper {
+  position: relative;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  perspective: 300px;
+}
+
+/* Static background card showing the new value */
+.flip-card-static {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Top and bottom halves of static card */
+.flip-half {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.flip-half-top {
+  background: linear-gradient(180deg, rgba(50, 45, 85, 0.95) 0%, rgba(45, 40, 80, 0.95) 100%);
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+}
+
+.flip-half-top .flip-num {
+  transform: translateY(50%);
+}
+
+.flip-half-bottom {
+  background: linear-gradient(180deg, rgba(35, 30, 65, 0.98) 0%, rgba(40, 35, 75, 0.98) 100%);
+  border-radius: 0 0 8px 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.flip-half-bottom .flip-num {
+  transform: translateY(-50%);
+}
+
+/* Animated panels container */
+.flip-card-animated {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Top panel - flips down to reveal new number */
+.flip-panel-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(50, 45, 85, 0.95) 0%, rgba(45, 40, 80, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 8px 8px 0 0;
+  transform-origin: bottom center;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.flip-panel-top .flip-num {
+  transform: translateY(50%);
+}
+
+/* Bottom panel - flips up from bottom */
+.flip-panel-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(35, 30, 65, 0.98) 0%, rgba(40, 35, 75, 0.98) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 8px 8px;
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  overflow: hidden;
+  z-index: 5;
+}
+
+.flip-panel-bottom .flip-num {
+  transform: translateY(-50%);
+}
+
+/* Flip down animation for top panel */
+@keyframes flip-top-down {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+/* Flip up animation for bottom panel */
+@keyframes flip-bottom-up {
+  0% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.do-flip {
+  animation: flip-top-down 0.3s ease-in forwards;
+}
+
+.do-flip-up {
+  animation: flip-bottom-up 0.3s 0.3s ease-out forwards;
+}
+
+/* ========== Responsive - larger on desktop ========== */
+@media (min-width: 768px) {
+  .flip-countdown {
+    gap: 1.25rem;
+  }
+  
+  .flip-card {
+    min-width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 10px;
+  }
+  
+  .flip-card-wrapper {
+    min-width: 4.5rem;
+    height: 4.5rem;
+  }
+  
+  .flip-num {
+    font-size: 2.25rem;
+  }
+  
+  .flip-unit {
+    font-size: 0.85rem;
+  }
+  
+  .flip-half-top,
+  .flip-half-bottom,
+  .flip-panel-top,
+  .flip-panel-bottom {
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .flip-half-bottom,
+  .flip-panel-bottom {
+    border-radius: 0 0 10px 10px;
   }
 }
 </style>

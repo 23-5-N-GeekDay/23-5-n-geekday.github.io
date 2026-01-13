@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeroSection from '~/components/HeroSection.vue'
+import IntroSection from '~/components/IntroSection.vue'
 import StatsSection from '~/components/StatsSection.vue'
 import AboutSection from '~/components/AboutSection.vue'
 import VenueSection from '~/components/VenueSection.vue'
@@ -20,6 +21,7 @@ const { isOpen, closeModal } = useRegisterModal()
     <!-- Main content - ensure content is visible above background -->
     <main class="relative">
       <HeroSection />
+      <IntroSection />
       <StatsSection />
       <AboutSection />
       <VenueSection />

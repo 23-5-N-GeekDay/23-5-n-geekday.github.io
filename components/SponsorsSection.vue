@@ -27,6 +27,7 @@ const sponsorDescriptions: Record<string, string> = {
   '汕头市潮阳实验学校': '作为指导单位，提供场地与教育资源支持。',
   '汕头市潮阳实验学校教育慈善基金会': '作为指导单位，提供教育慈善与资源支持。',
   '普宁市潮实高级中学': '作为指导单位，提供场地与教育资源支持。',
+  '汕头华侨经济文化合作试验区管委会': '作为指导单位，提供政策指导与资源对接支持。',
   '潮阳实验学校北京校友会': '作为主办单位，统筹赛事策划与组织工作。',
 }
 
@@ -79,6 +80,7 @@ const sponsorLogos: Record<string, string> = {
   '硅星人': '/sponsors/guixingren.png',
   '深圳科创学院': '/sponsors/x-institute.png',
   'AIAgent2025': '/sponsors/aiagent2025.png',
+  '汕头华侨经济文化合作试验区管委会': '/sponsors/sthq.png',
 }
 
 // 终端显示的赞助商行数据
@@ -93,6 +95,7 @@ const sponsorLines: SponsorLine[] = [
   { category: 'supervisor', name: '汕头市潮阳实验学校', color: 'text-yellow-400' },
   { category: 'supervisor', name: '普宁市潮实高级中学', color: 'text-yellow-400' },
   { category: 'supervisor', name: '汕头市潮阳实验学校教育慈善基金会', color: 'text-yellow-400' },
+  { category: 'supervisor', name: '汕头华侨经济文化合作试验区管委会', color: 'text-yellow-400' },
   // 主办单位
   { category: 'organizer', name: '潮阳实验学校北京校友会', color: 'text-orange-400' },
   // 赛事指导
@@ -374,25 +377,25 @@ onMounted(() => {
           <template v-for="(sponsor, index) in sponsorLines" :key="sponsor.name">
             <!-- 分类标题 -->
             <div 
-              v-if="visibleLines > index && sponsor.category === 'organizer' && index === 3" 
+              v-if="visibleLines > index && sponsor.category === 'organizer' && index === 4" 
               class="mt-4 mb-2"
             >
               <span class="text-orange-600 font-pixel text-xs"># 主办单位</span>
             </div>
             <div 
-              v-if="visibleLines > index && sponsor.category === 'guidance' && index === 4" 
+              v-if="visibleLines > index && sponsor.category === 'guidance' && index === 5" 
               class="mt-4 mb-2"
             >
               <span class="text-cyan-600 font-pixel text-xs"># 赛事指导单位</span>
             </div>
             <div 
-              v-if="visibleLines > index && sponsor.category === 'track' && index === 11" 
+              v-if="visibleLines > index && sponsor.category === 'track' && index === 12" 
               class="mt-4 mb-2"
             >
               <span class="text-green-600 font-pixel text-xs"># 赛道支持单位</span>
             </div>
             <div 
-              v-if="visibleLines > index && sponsor.category === 'community' && index === 18" 
+              v-if="visibleLines > index && sponsor.category === 'community' && index === 19" 
               class="mt-4 mb-2"
             >
               <span class="text-purple-600 font-pixel text-xs"># 社区伙伴</span>

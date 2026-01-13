@@ -61,6 +61,10 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 100
 }
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 const navMotionClass = computed(() => {
   // Always show navbar on content pages
   if (!isHomePage.value) {
@@ -90,12 +94,13 @@ onBeforeUnmount(() => {
     ]"
   >
     <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-      <NuxtLink
-        to="/"
-        class="cursor-pointer hover:opacity-80 transition-opacity"
+      <a
+        href="#"
+        class="cursor-pointer"
+        @click.prevent="scrollToTop"
       >
         <img :src="logoSrc" alt="北回归线极客节" class="h-10" />
-      </NuxtLink>
+      </a>
 
       <div class="hidden md:flex items-center gap-6">
         <button

@@ -33,7 +33,7 @@ const { target, isVisible } = usePixelInView('-10%')
         class="font-pixel-cn text-2xl md:text-3xl mb-16 leading-relaxed"
       >
         北回归线极客节
-        <span class="text-muted-foreground ml-4">2026</span>
+        <span class="text-muted-foreground ml-4">2026 Hackathon</span>
       </h2>
 
       <div

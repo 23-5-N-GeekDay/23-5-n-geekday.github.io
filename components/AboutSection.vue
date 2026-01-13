@@ -2,10 +2,10 @@
 import { pixelSlideIn, pixelFadeIn, pixelScanIn, fastStaggerContainer } from '~/composables/usePixelAnimation'
 
 const features = [
-  { icon: '🤖', title: 'AI Agent 赛道', desc: '基于大模型构建智能体应用' },
-  { icon: '🦾', title: '具身智能赛道', desc: '感知-决策-执行闭环机器人' },
-  { icon: '🏆', title: '¥60,000+ 奖金', desc: '丰厚奖金与孵化机会' },
-  { icon: '🍽️', title: '全程免费', desc: '食宿交通全包，专注创造' },
+  { icon: '🤖', title: 'AI Agent 智能体赛道', desc: '基于大模型构建智能体应用' },
+  { icon: '🦾', title: 'Embodied AI 具身智能赛道', desc: '感知-决策-执行闭环机器人' },
+  { icon: '🏆', title: '¥60,000 奖金', desc: '丰厚奖金与孵化机会' },
+  { icon: '🍽️', title: '全程免费', desc: '餐食小吃，两晚住宿，跨市交通' },
 ]
 
 const featureItem = {

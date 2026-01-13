@@ -26,7 +26,7 @@ const sponsorDescriptions: Record<string, string> = {
   'AIAgent2025': '社区伙伴，提供AI智能体技术社区。',
   '汕头市潮阳实验学校': '作为指导单位，提供场地与教育资源支持。',
   '汕头市潮阳实验学校教育慈善基金会': '作为指导单位，提供教育慈善与资源支持。',
-  '汕头华侨经济文化合作试验区管委会': '作为指导单位，提供政策与区域资源支持。',
+  '普宁市潮实高级中学': '作为指导单位，提供场地与教育资源支持。',
   '潮阳实验学校北京校友会': '作为主办单位，统筹赛事策划与组织工作。',
 }
 
@@ -48,14 +48,17 @@ const sponsorUrls: Record<string, string> = {
   '观潮KwanTeo': 'https://36kr.com/user/217422981',
   'OpenBuild': 'https://openbuild.xyz',
   '硅星人': 'https://36kr.com/user/5136820016',
-  '深圳科创学院': 'https://www.x-institute.cn',
+  '深圳科创学院': 'https://www.innoxsz.com',
   'AIAgent2025': 'https://aiagent2025.com',
+  '汕头市潮阳实验学校': 'https://www.cysy.com.cn',
+  '普宁市潮实高级中学': 'https://www.cysy.com.cn',
+  '汕头市潮阳实验学校教育慈善基金会': 'https://www.cysy.com.cn',
 }
 
 const sponsorLogos: Record<string, string> = {
   '汕头市潮阳实验学校': '/sponsors/cysy.png',
   '汕头市潮阳实验学校教育慈善基金会': '/sponsors/cysy-foundation.png',
-  '汕头华侨经济文化合作试验区管委会': '/sponsors/sthq.png',
+  '普宁市潮实高级中学': '/sponsors/puning-chaoshi.png',
   '潮阳实验学校北京校友会': '/sponsors/cysy-bj-alumni.png',
   '北京智源研究院': '/sponsors/baai.png',
   '百度飞桨': '/sponsors/paddlepaddle.png',
@@ -88,8 +91,8 @@ interface SponsorLine {
 const sponsorLines: SponsorLine[] = [
   // 指导单位
   { category: 'supervisor', name: '汕头市潮阳实验学校', color: 'text-yellow-400' },
+  { category: 'supervisor', name: '普宁市潮实高级中学', color: 'text-yellow-400' },
   { category: 'supervisor', name: '汕头市潮阳实验学校教育慈善基金会', color: 'text-yellow-400' },
-  { category: 'supervisor', name: '汕头华侨经济文化合作试验区管委会', color: 'text-yellow-400' },
   // 主办单位
   { category: 'organizer', name: '潮阳实验学校北京校友会', color: 'text-orange-400' },
   // 赛事指导

@@ -3,8 +3,8 @@ import { pixelSlideIn, pixelFadeIn, pixelPopIn, staggerContainer, usePixelInView
 
 const stats = [
   { value: '48', label: '小时编程', icon: '⏰' },
-  { value: '¥60K+', label: '奖金池', icon: '💰' },
-  { value: '2', label: '赛道', icon: '🎯' },
+  { value: '¥60K', label: '奖金池', icon: '💰' },
+  { value: '20+', label: '支持厂商', icon: '🤝' },
 ]
 
 const { target, isVisible } = usePixelInView('-10%')

@@ -2,9 +2,9 @@
 import { pixelSlideIn, pixelFadeIn, staggerContainer, fastStaggerContainer } from '~/composables/usePixelAnimation'
 
 const prizes = [
-  { rank: 'AI AGENT', amount: '赛道奖金', icon: '🤖', color: 'text-cyan-400' },
-  { rank: 'EMBODIED', amount: '赛道奖金', icon: '🦾', color: 'text-purple-400' },
-  { rank: 'SPECIAL', amount: '特别奖项', icon: '🌟', color: 'text-amber-400' },
+  { rank: 'AI AGENT', amount: '待公布', icon: '🤖', color: 'text-cyan-400' },
+  { rank: 'EMBODIED', amount: '待公布', icon: '🦾', color: 'text-purple-400' },
+  { rank: 'SPECIAL', amount: '待公布', icon: '🌟', color: 'text-amber-400' },
 ]
 
 const specialPrizes = [
@@ -81,7 +81,7 @@ const tagPop = {
             }"
             :transition="{ duration: 2000, repeat: Infinity }"
           >
-            ¥60,000+
+            ¥60,000
           </h2>
         <p class="font-pixel-cn text-xl text-muted-foreground">
           总奖金池
@@ -120,7 +120,7 @@ const tagPop = {
           <div class="font-pixel text-xs text-muted-foreground mb-2">
             {{ prize.rank }} PLACE
           </div>
-          <div :class="`font-pixel text-xl md:text-2xl ${prize.color}`">
+          <div :class="`font-pixel-cn text-xl md:text-2xl ${prize.color}`">
             {{ prize.amount }}
           </div>
         </div>

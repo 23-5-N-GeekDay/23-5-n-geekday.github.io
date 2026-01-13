@@ -2,22 +2,18 @@
 import { pixelSlideIn, pixelFadeIn, pixelScanIn } from '~/composables/usePixelAnimation'
 
 const scheduleDay1 = [
-  { time: '08:00', event: '签到入场', icon: '📝' },
-  { time: '09:00', event: '开幕式', icon: '🎬' },
-  { time: '10:00', event: '主题发布 & 组队', icon: '👥' },
-  { time: '11:00', event: '▶ 48小时编程开始', icon: '💻' },
-  { time: '12:00', event: '午餐', icon: '🍜' },
-  { time: '18:00', event: '晚餐', icon: '🍕' },
-  { time: '00:00', event: '午夜茶歇', icon: '🌙' },
+  { time: '待定', event: '日程更新中', icon: '⌛' },
+  { time: '待定', event: '敬请期待', icon: '🛠️' },
 ]
 
 const scheduleDay2 = [
-  { time: '08:00', event: '早餐', icon: '☕' },
-  { time: '11:00', event: '■ 编程结束 & 提交', icon: '🏁' },
-  { time: '12:00', event: '午餐', icon: '🍜' },
-  { time: '13:00', event: '项目路演', icon: '🎤' },
-  { time: '16:00', event: '颁奖典礼', icon: '🏆' },
-  { time: '17:00', event: '闭幕式', icon: '👋' },
+  { time: '待定', event: '日程更新中', icon: '⌛' },
+  { time: '待定', event: '敬请期待', icon: '🛠️' },
+]
+
+const scheduleDay3 = [
+  { time: '待定', event: '日程更新中', icon: '⌛' },
+  { time: '待定', event: '敬请期待', icon: '🛠️' },
 ]
 
 const scheduleItemVariants = {
@@ -35,7 +31,12 @@ const scheduleItemVariants = {
 }
 
 const activeDay = ref(1)
-const currentSchedule = computed(() => activeDay.value === 1 ? scheduleDay1 : scheduleDay2)
+const currentSchedule = computed(() => {
+  if (activeDay.value === 1) return scheduleDay1
+  if (activeDay.value === 2) return scheduleDay2
+  return scheduleDay3
+})
+const activeDayPath = computed(() => `/schedule/day${activeDay.value}`)
 </script>
 
 <template>
@@ -68,7 +69,7 @@ const currentSchedule = computed(() => activeDay.value === 1 ? scheduleDay1 : sc
         class="flex gap-3 mb-8"
       >
         <button
-          v-for="day in [1, 2]"
+          v-for="day in [1, 2, 3]"
           :key="day"
           @click="activeDay = day"
           class="font-pixel text-xs px-6 py-3 transition-all"
@@ -118,6 +119,17 @@ const currentSchedule = computed(() => activeDay.value === 1 ? scheduleDay1 : sc
           </div>
         </Transition>
       </div>
+
+      <NuxtLink
+        :to="activeDayPath"
+        v-motion
+        :initial="{ opacity: 0 }"
+        :visible-once="{ opacity: 1, transition: { duration: 400, delay: 900 } }"
+        class="inline-block mt-6 font-pixel text-xs text-primary hover:text-[#B185DB] transition-colors"
+        :hover="{ x: 5 }"
+      >
+        [ READ MORE... ]
+      </NuxtLink>
     </div>
   </section>
 </template>

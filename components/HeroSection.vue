@@ -90,11 +90,14 @@ const { openModal } = useRegisterModal()
         :initial="{ opacity: 0 }"
         :visible="{ opacity: 1 }"
         :transition="{ duration: 600, delay: 500 }"
-        class="mb-4"
+        class="mb-6"
       >
-        <span class="font-mono text-2xl md:text-3xl text-white/90 tracking-widest">
-          2026.02
-        </span>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <span class="font-mono text-2xl md:text-3xl text-white/90 tracking-[0.35em]">
+            2026.02.
+          </span>
+          <span class="keycap font-pixel text-xl md:text-2xl">23-25</span>
+        </div>
       </div>
 
       <p
@@ -104,7 +107,7 @@ const { openModal } = useRegisterModal()
         :transition="{ duration: 600, delay: 600 }"
         class="text-lg md:text-xl font-pixel-cn text-white/80 mb-8"
       >
-        用 <span class="text-cyan-300 font-bold">48小时</span> · 构建 <span class="text-orange-300 font-bold">AI 未来</span>
+        用 <span class="text-cyan-300 font-bold">创造</span> · 触碰 <span class="text-orange-300 font-bold">认知边界</span>
       </p>
 
       <div
@@ -173,3 +176,172 @@ const { openModal } = useRegisterModal()
     </div>
   </section>
 </template>
+
+<style scoped>
+.date-glow {
+  text-shadow:
+    0 0 12px rgba(129, 140, 248, 0.55),
+    0 0 24px rgba(129, 140, 248, 0.45),
+    0 0 36px rgba(129, 140, 248, 0.35);
+}
+
+/* Keycap group container */
+.keycap-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Individual keycap styling */
+.keycap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  padding: 0.6rem 1rem;
+  
+  /* Gradient background - dark with subtle purple tint */
+  background: linear-gradient(
+    135deg,
+    rgba(45, 35, 85, 0.95) 0%,
+    rgba(30, 25, 60, 0.98) 50%,
+    rgba(25, 20, 50, 1) 100%
+  );
+  
+  /* 3D border effect */
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 8px;
+  
+  /* Text styling */
+  color: #c4b5fd;
+  letter-spacing: 0.1em;
+  
+  /* 3D shadow for depth - key visual effect */
+  box-shadow:
+    /* Top highlight */
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    /* Inner shadow for concave effect */
+    inset 0 -2px 6px rgba(0, 0, 0, 0.3),
+    /* Base shadow - creates 3D lift */
+    0 4px 0 rgba(20, 15, 40, 0.95),
+    /* Soft shadow below */
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    /* Neon glow */
+    0 0 20px rgba(139, 92, 246, 0.25),
+    0 0 40px rgba(139, 92, 246, 0.15);
+  
+  /* Smooth transition for hover effects */
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  
+  /* Text shadow for digital glow */
+  text-shadow:
+    0 0 8px rgba(196, 181, 253, 0.6),
+    0 0 16px rgba(139, 92, 246, 0.4);
+}
+
+/* Scanline overlay for digital feel */
+.keycap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.015) 2px,
+    rgba(255, 255, 255, 0.015) 4px
+  );
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+/* Glowing border effect */
+.keycap::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.5) 0%,
+    rgba(99, 102, 241, 0.3) 25%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(99, 102, 241, 0.3) 75%,
+    rgba(139, 92, 246, 0.5) 100%
+  );
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.6;
+  animation: keycap-glow 3s ease-in-out infinite;
+}
+
+/* Hover state - pressed effect */
+.keycap:hover {
+  transform: translateY(2px);
+  
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.3),
+    0 2px 0 rgba(20, 15, 40, 0.95),
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(139, 92, 246, 0.4),
+    0 0 60px rgba(139, 92, 246, 0.2);
+  
+  color: #e9d5ff;
+  text-shadow:
+    0 0 12px rgba(233, 213, 255, 0.8),
+    0 0 24px rgba(139, 92, 246, 0.6);
+}
+
+.keycap:hover::after {
+  opacity: 1;
+}
+
+/* Active state - fully pressed */
+.keycap:active {
+  transform: translateY(4px);
+  
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0px 0 rgba(20, 15, 40, 0.95),
+    0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.5);
+}
+
+/* Dash keycap - slightly smaller */
+.keycap-dash {
+  min-width: 2rem;
+  padding: 0.6rem 0.6rem;
+}
+
+/* Pulsing glow animation */
+@keyframes keycap-glow {
+  0%, 100% {
+    opacity: 0.4;
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(6px);
+  }
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .keycap {
+    min-width: 3.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+  }
+  
+  .keycap-dash {
+    min-width: 2.5rem;
+    padding: 0.75rem 0.75rem;
+  }
+  
+  .keycap-group {
+    gap: 0.75rem;
+  }
+}
+</style>

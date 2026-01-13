@@ -185,7 +185,8 @@ content/
 ├── sponsors.md       # 赞助商信息
 ├── schedule/         # 日程安排
 │   ├── day1.md
-│   └── day2.md
+│   ├── day2.md
+│   └── day3.md
 ├── tracks/           # 赛道介绍
 │   ├── ai-agent.md
 │   └── embodied-ai.md
@@ -193,6 +194,10 @@ content/
     ├── embodied-ai.md
     └── ...
 ```
+
+当前内容状态（需保持同步）：
+- 日程：DAY1/2/3 为“待定”占位，更新时间表时同步 `ScheduleSection.vue`、`pages/[...slug].vue`、`error.vue` 的导航。
+- 奖项：`content/prizes.md` 仅公开总奖金池金额（¥60,000）；主页 `PrizesSection.vue` 使用待公布占位文案，更新奖项明细时同步两处。
 
 ---
 

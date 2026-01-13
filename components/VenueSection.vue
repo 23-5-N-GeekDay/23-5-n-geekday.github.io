@@ -2,16 +2,16 @@
 import { pixelSlideIn, pixelFadeIn, pixelCardFloat, pixelBuildIn, staggerContainer } from '~/composables/usePixelAnimation'
 
 const details = [
-  { icon: '📅', label: '日期', value: '2026年2月15-16日' },
-  { icon: '⏱️', label: '时长', value: '48小时' },
-  { icon: '📍', label: '地点', value: '待定' },
+  { icon: '📅', label: '日期', value: '2026年2月23-25日' },
+  { icon: '⏱️', label: '时长', value: '48小时黑客松+6小时开放活动' },
+  { icon: '📍', label: '地点', value: '潮汕（待公布）' },
   { icon: '🎫', label: '费用', value: '免费参加' },
 ]
 
 const benefits = [
   { icon: '🍕', title: '餐食全包', desc: '三餐与无限零食' },
-  { icon: '🛏️', title: '住宿支持', desc: '睡袋与休息区域' },
-  { icon: '🚗', title: '交通补贴', desc: '远途可申请补贴' },
+  { icon: '🛏️', title: '住宿支持', desc: '两晚宾馆与休息区域' },
+  { icon: '🚗', title: '交通补贴', desc: '潮汕三市跨市大巴集体接送' },
 ]
 
 const detailRow = {

@@ -162,6 +162,17 @@ const tagPop = {
       >
         总奖金池，含实物与现金奖励
       </p>
+
+      <NuxtLink
+        to="/prizes"
+        v-motion
+        :initial="{ opacity: 0 }"
+        :visible-once="{ opacity: 1, transition: { duration: 400, delay: 1100 } }"
+        class="inline-block mt-4 font-pixel text-xs text-primary hover:text-[#B185DB] transition-colors"
+        :hover="{ x: 5 }"
+      >
+        [ READ MORE... ]
+      </NuxtLink>
     </div>
   </section>
 </template>

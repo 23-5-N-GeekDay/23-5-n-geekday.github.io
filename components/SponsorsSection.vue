@@ -1,74 +1,150 @@
 <script setup lang="ts">
 import { withBase } from 'ufo'
-import { pixelSlideIn, pixelFadeIn, staggerContainer } from '~/composables/usePixelAnimation'
+import { pixelSlideIn, pixelFadeIn } from '~/composables/usePixelAnimation'
 import SponsorModal from './SponsorModal.vue'
 
-// 赞助商描述数据
+// 赞助商数据
 const sponsorDescriptions: Record<string, string> = {
-  'TRAE': '为每位选手免费提供为期一个月的 Trae Pro 会员服务。选手可充分利用 Trae 提供的强大 AI 开发环境、高效的智能体编排工具以及丰富的知识库与连接器，无需从零搭建底层架构，即可快速实现智能体的逻辑设计、记忆管理、多工具调用与复杂任务执行，显著提升智能体的行动能力与开发效率。',
-  '算能科技': '由比特大陆孵化的 SophNet 云算力平台基于算能自研 TPU 算力，为开发者提供一站式模型服务。提供近百款文本、视频、图像、语音、向量模型，兼容 OpenAI、Anthropic 接口，支持 Prefix、Tools、Json 功能。\n\n提供高速度、高并发、高吞吐的大模型 API 服务，以 Deepseek V3 fast 为例，推理速度超 100 tokens/s，达到行业平均水平的 5 倍以上。\n\n提供语音转文本、文档解析、OCR、Embeddings 等常用 AI 助手接口，Chat+TTS 和端到端实时语音对话功能。支持 OfficeAI、Claude Code、Coze、ARGO、Dify 等热门工具接入。\n\nSophgallery 提供多模态内容创作自由画布，接入 Wan2.6、即梦等前沿模型，实现可视化拖拽工作流。让企业和开发者实现真正的模型与算力自由，加速 AI 计算普惠人类。\n\n🖥️ 同时，算能将提供 10 台 H200 服务器，供赛队完成模型训练、部署。',
-  '百度飞桨': '提供全面的深度学习框架和丰富的预训练模型库。选手可直接调用飞桨的各类模型能力（如对话语言模型、文本生成模型、图像识别与生成模型等），无需自行训练底层模型，即可赋予 Agent 语言理解、内容创作、视觉分析等智能功能，加速实现智能体的认知大脑。',
-  '阿里魔搭': '提供适配开源大模型的应用开发框架和多模态模型服务。开发者可以利用魔搭社区提供的框架，以开源大语言模型为核心，灵活运用记忆管理、工具调用等模块，高效构建各类大语言模型应用（LLM Apps）、模型上下文协议服务（MCP Server）或自定义工具（Tools），实现任务规划、多工具协同等高级能力。\n\n魔搭平台还汇聚了海量预训练模型（涵盖语言、视觉、语音等），方便开发者按需调用，为应用拓展技能模组以实现复杂任务。',
-  '天翼AI': '作为赛事指导单位，为极客节提供技术指导与支持。',
-  '非夕科技': '智源研究院提供最新发布的通用 VLA 模型 RoboBrain-X，在 RoboBrain 多模态基座能力与 RoboBrain 2.0 数据的基础上，进一步融合真实机器人动作数据，实现了从感知到执行的一体化能力。\n\n该模型通过统一建模视觉、语言与动作解决了跨机器人本体的泛化适配问题，其核心设计是将各类机器人的控制信号映射到以末端执行器三维位姿为标准的统一动作空间，并借助动作分词器与分组残差量化技术，把复杂控制轨迹转化为可共享的动作原语 token。\n\n这种设计让松灵机械臂、Franka 机械臂、星海图机器人等不同形态的设备能共用同一套"动作语言"执行任务，目前已实现零样本完成拾取、放置等基础操作，仅需少量样本微调，就能应对复杂任务的拆解与执行。',
-  'SeeedStudio': '提供开源机械臂（如 Lerobot Arm）、边缘计算模块（如 NVIDIA Jetson 兼容板）、传感器，支持快速搭建轻量化具身系统，适合低成本、创意化的场景落地。',
-  '拓竹Cyberbrick': '模块化编程机器人（支持低代码拖拽编程，可快速搭建支架、触发装置、简单传动结构），无需复杂硬件开发，1 小时内可完成基础结构搭建。\n\n3D 打印机支持 PLA 材质快速打印（小尺寸零件 30 分钟 - 2 小时可完成），可即时生成具身系统所需的定制化实体部件（如机械臂末端专属抓手、场景适配的小尺寸支架、互动装置配件），实现"数字设计→实体落地"的即时转化。',
-  '观潮KwanTeo': '社区伙伴，为极客节提供媒体支持与社区传播资源。',
-  'OpenBuild': '社区伙伴，为极客节提供开发者社区资源与技术交流平台支持。',
-  '硅星人': '社区伙伴，为极客节提供科技媒体报道与内容传播支持。',
+  'TRAE': '为每位选手免费提供为期一个月的 Trae Pro 会员服务。选手可充分利用 Trae 提供的强大 AI 开发环境、高效的智能体编排工具以及丰富的知识库与连接器。',
+  '算能科技': '由比特大陆孵化的 SophNet 云算力平台基于算能自研 TPU 算力，为开发者提供一站式模型服务。🖥️ 同时提供 10 台 H200 服务器供赛队使用。',
+  '百度飞桨': '提供全面的深度学习框架和丰富的预训练模型库。',
+  '阿里魔搭': '提供适配开源大模型的应用开发框架和多模态模型服务。',
+  '北京智源研究院': '作为赛事指导单位，提供人工智能领域的前沿技术指导与学术支持。',
+  '中科紫东太初': '作为赛事指导单位，提供多模态大模型技术支持与指导。',
+  '武汉人工智能研究院': '作为赛事指导单位，提供人工智能技术研发与应用指导。',
+  '老鹰基金': '作为赛事指导单位，提供创业投资与产业资源支持。',
+  '中国电信天翼AI': '作为赛事指导单位，提供云计算与大数据人工智能技术支持。',
+  '非夕科技': '提供高精度力控机械臂技术支持。',
+  '地瓜机器人': '提供 RDK X5 机器人开发者套件。',
+  'SeeedStudio': '提供开源机械臂、边缘计算模块、传感器。',
+  '拓竹Cyberbrick': '模块化编程机器人与 3D 打印机支持。',
+  '云鲸智能': '提供智能机器人技术支持与产品体验资源。',
+  '观潮KwanTeo': '社区伙伴，为极客节提供媒体支持。',
+  'OpenBuild': '社区伙伴，为极客节提供开发者社区资源。',
+  '硅星人': '社区伙伴，为极客节提供科技媒体报道。',
+  '深圳科创学院': '社区伙伴，提供创新创业教育资源。',
+  'AIAgent2025': '社区伙伴，提供AI智能体技术社区。',
+  '汕头市潮阳实验学校': '作为指导单位，提供场地与教育资源支持。',
+  '汕头市潮阳实验学校教育慈善基金会': '作为指导单位，提供教育慈善与资源支持。',
+  '汕头华侨经济文化合作试验区管委会': '作为指导单位，提供政策与区域资源支持。',
+  '潮阳实验学校北京校友会': '作为主办单位，统筹赛事策划与组织工作。',
 }
 
-// 赞助商官网链接
 const sponsorUrls: Record<string, string> = {
   'TRAE': 'https://trae.ai',
   '算能科技': 'https://sophnet.com',
   '百度飞桨': 'https://www.paddlepaddle.org.cn',
   '阿里魔搭': 'https://modelscope.cn',
-  '天翼AI': 'https://www.teleai.com.cn',
+  '北京智源研究院': 'https://www.baai.ac.cn',
+  '中科紫东太初': 'https://www.taichu.com.cn',
+  '武汉人工智能研究院': 'https://www.wairi.cn',
+  '老鹰基金': 'https://www.eaglefund.cn',
+  '中国电信天翼AI': 'https://www.ctyun.cn',
   '非夕科技': 'https://www.flexiv.cn',
+  '地瓜机器人': 'https://www.d-robotics.cc',
   'SeeedStudio': 'https://www.seeedstudio.com',
   '拓竹Cyberbrick': 'https://bambulab.cn',
+  '云鲸智能': 'https://www.narwal.com',
   '观潮KwanTeo': 'https://36kr.com/user/217422981',
   'OpenBuild': 'https://openbuild.xyz',
   '硅星人': 'https://36kr.com/user/5136820016',
+  '深圳科创学院': 'https://www.x-institute.cn',
+  'AIAgent2025': 'https://aiagent2025.com',
 }
 
-// 赛事指导单位
-const guidanceSponsors = [
-  { name: '百度飞桨', logo: '/sponsors/paddlepaddle.png' },
-  { name: '阿里魔搭', logo: '/sponsors/modelscope.png' },
-  { name: '天翼AI', logo: '/sponsors/tianyiai.png' },
-]
+const sponsorLogos: Record<string, string> = {
+  '汕头市潮阳实验学校': '/sponsors/cysy.png',
+  '汕头市潮阳实验学校教育慈善基金会': '/sponsors/cysy-foundation.png',
+  '汕头华侨经济文化合作试验区管委会': '/sponsors/sthq.png',
+  '潮阳实验学校北京校友会': '/sponsors/cysy-bj-alumni.png',
+  '北京智源研究院': '/sponsors/baai.png',
+  '百度飞桨': '/sponsors/paddlepaddle.png',
+  '阿里魔搭': '/sponsors/modelscope.png',
+  '中国电信天翼AI': '/sponsors/tianyiai.png',
+  '中科紫东太初': '/sponsors/taichu.png',
+  '武汉人工智能研究院': '/sponsors/wairi.png',
+  '老鹰基金': '/sponsors/eaglefund.png',
+  '算能科技': '/sponsors/sophgo.png',
+  'TRAE': '/sponsors/trae.png',
+  '地瓜机器人': '/sponsors/digua.png',
+  '非夕科技': '/sponsors/flexiv.png',
+  'SeeedStudio': '/sponsors/seeedstudio.png',
+  '拓竹Cyberbrick': '/sponsors/cyberbrick.svg',
+  '云鲸智能': '/sponsors/narwal.png',
+  '观潮KwanTeo': '/sponsors/kwanteo.png',
+  'OpenBuild': '/sponsors/openbuild.png',
+  '硅星人': '/sponsors/guixingren.png',
+  '深圳科创学院': '/sponsors/x-institute.png',
+  'AIAgent2025': '/sponsors/aiagent2025.png',
+}
 
-// 赛道支持单位
-const trackSponsors = [
-  { name: '算能科技', logo: '/sponsors/sophgo.png' },
-  { name: 'TRAE', logo: '/sponsors/trae.png' },
-  { name: '非夕科技', logo: '/sponsors/flexiv.png' },
-  { name: 'SeeedStudio', logo: '/sponsors/seeedstudio.png' },
-  { name: '拓竹Cyberbrick', logo: '/sponsors/cyberbrick.svg' },
-]
+// 终端显示的赞助商行数据
+interface SponsorLine {
+  category: string
+  name: string
+  color: string
+}
 
-// 社区伙伴
-const communityPartners = [
-  { name: '观潮KwanTeo', logo: '/sponsors/kwanteo.png' },
-  { name: 'OpenBuild', logo: '/sponsors/openbuild.png' },
-  { name: '硅星人', logo: '/sponsors/guixingren.png' },
+const sponsorLines: SponsorLine[] = [
+  // 指导单位
+  { category: 'supervisor', name: '汕头市潮阳实验学校', color: 'text-yellow-400' },
+  { category: 'supervisor', name: '汕头市潮阳实验学校教育慈善基金会', color: 'text-yellow-400' },
+  { category: 'supervisor', name: '汕头华侨经济文化合作试验区管委会', color: 'text-yellow-400' },
+  // 主办单位
+  { category: 'organizer', name: '潮阳实验学校北京校友会', color: 'text-orange-400' },
+  // 赛事指导
+  { category: 'guidance', name: '北京智源研究院', color: 'text-cyan-400' },
+  { category: 'guidance', name: '百度飞桨', color: 'text-cyan-400' },
+  { category: 'guidance', name: '阿里魔搭', color: 'text-cyan-400' },
+  { category: 'guidance', name: '中国电信天翼AI', color: 'text-cyan-400' },
+  { category: 'guidance', name: '中科紫东太初', color: 'text-cyan-400' },
+  { category: 'guidance', name: '武汉人工智能研究院', color: 'text-cyan-400' },
+  { category: 'guidance', name: '老鹰基金', color: 'text-cyan-400' },
+  // 赛道支持
+  { category: 'track', name: '算能科技', color: 'text-green-400' },
+  { category: 'track', name: 'TRAE', color: 'text-green-400' },
+  { category: 'track', name: '地瓜机器人', color: 'text-green-400' },
+  { category: 'track', name: '非夕科技', color: 'text-green-400' },
+  { category: 'track', name: 'SeeedStudio', color: 'text-green-400' },
+  { category: 'track', name: '拓竹Cyberbrick', color: 'text-green-400' },
+  { category: 'track', name: '云鲸智能', color: 'text-green-400' },
+  // 社区伙伴
+  { category: 'community', name: '观潮KwanTeo', color: 'text-purple-400' },
+  { category: 'community', name: 'OpenBuild', color: 'text-purple-400' },
+  { category: 'community', name: '硅星人', color: 'text-purple-400' },
+  { category: 'community', name: '深圳科创学院', color: 'text-purple-400' },
+  { category: 'community', name: 'AIAgent2025', color: 'text-purple-400' },
 ]
 
 const baseURL = useRuntimeConfig().app.baseURL || '/'
 const logoSrc = (path: string) => withBase(path, baseURL)
 
+// 打字机动画状态
+const visibleLines = ref(0)
+const isTypingComplete = ref(false)
+const commandInput = ref('')
+const showCursor = ref(true)
+const isTerminalVisible = ref(false)
+const terminalInput = ref<HTMLInputElement | null>(null)
+
+// 命令历史记录
+interface CommandEntry {
+  command: string
+  output: string[]
+  clickableSponsors?: SponsorLine[]
+}
+const commandHistory = ref<CommandEntry[]>([])
+
 // 弹窗状态
 const isModalOpen = ref(false)
 const selectedSponsor = ref<{ name: string; logo: string; description: string; url?: string } | null>(null)
 
-const openSponsorModal = (sponsor: { name: string; logo: string }) => {
+const openSponsorModal = (name: string) => {
   selectedSponsor.value = {
-    name: sponsor.name,
-    logo: sponsor.logo,
-    description: sponsorDescriptions[sponsor.name] || '暂无详细介绍',
-    url: sponsorUrls[sponsor.name],
+    name,
+    logo: sponsorLogos[name] || '',
+    description: sponsorDescriptions[name] || '暂无详细介绍',
+    url: sponsorUrls[name],
   }
   isModalOpen.value = true
 }
@@ -78,24 +154,148 @@ const closeSponsorModal = () => {
   selectedSponsor.value = null
 }
 
-const sponsorCard = {
-  initial: { opacity: 0, y: 30, scale: 0.9 },
-  visibleOnce: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-      damping: 15,
-    },
-  },
+// 打字机动画
+const startTypewriter = () => {
+  if (isTypingComplete.value) return
+  isTerminalVisible.value = true
+  
+  const typeNextLine = () => {
+    if (visibleLines.value < sponsorLines.length) {
+      visibleLines.value++
+      setTimeout(typeNextLine, 80)
+    } else {
+      isTypingComplete.value = true
+      nextTick(() => {
+        terminalInput.value?.focus()
+      })
+    }
+  }
+  
+  setTimeout(typeNextLine, 300)
 }
+
+// 光标闪烁
+onMounted(() => {
+  setInterval(() => {
+    showCursor.value = !showCursor.value
+  }, 530)
+})
+
+// 处理命令输入
+const handleCommand = (e: KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    const cmd = commandInput.value.trim()
+    const cmdLower = cmd.toLowerCase()
+    
+    if (!cmd) return
+    
+    let output: string[] = []
+    let clickableSponsors: SponsorLine[] = []
+    
+    if (cmdLower === 'help') {
+      output = [
+        '<span class="text-primary">可用命令:</span>',
+        '  <span class="text-cyan-400">ls [category]</span>  - 列出赞助商',
+        '  <span class="text-cyan-400">cat [name]</span>     - 查看赞助商详情',
+        '  <span class="text-cyan-400">clear</span>          - 清空历史',
+        '  <span class="text-cyan-400">become_sponsor</span> - 成为赞助商',
+      ]
+    } else if (cmdLower === 'clear') {
+      commandHistory.value = []
+      commandInput.value = ''
+      return
+    } else if (cmdLower.startsWith('ls')) {
+      const category = cmdLower.split(' ')[1]
+      if (category) {
+        const filtered = sponsorLines.filter(s => s.category === category)
+        if (filtered.length > 0) {
+          clickableSponsors = filtered
+          output = [`<span class="text-muted-foreground">找到 ${filtered.length} 个赞助商 (点击查看详情):</span>`]
+        } else {
+          output = [
+            `<span class="text-red-400">Category '${category}' not found.</span>`,
+            '<span class="text-muted-foreground">Try: supervisor, organizer, guidance, track, community</span>'
+          ]
+        }
+      } else {
+        output = [
+          '<span class="text-primary">Usage: ls [category]</span>',
+          '',
+          '<span class="text-muted-foreground">Available categories:</span>',
+          '  <span class="text-yellow-400">supervisor</span>  - 指导单位',
+          '  <span class="text-orange-400">organizer</span>   - 主办单位',
+          '  <span class="text-cyan-400">guidance</span>    - 赛事指导单位',
+          '  <span class="text-green-400">track</span>       - 赛道支持单位',
+          '  <span class="text-purple-400">community</span>   - 社区伙伴',
+        ]
+      }
+    } else if (cmdLower.startsWith('cat ')) {
+      const name = cmd.slice(4)
+      const sponsor = sponsorLines.find(s => s.name.toLowerCase().includes(name.toLowerCase()))
+      if (sponsor) {
+        openSponsorModal(sponsor.name)
+        output = [`<span class="text-green-400">Opening ${sponsor.name}...</span>`]
+      } else {
+        output = [`<span class="text-red-400">Sponsor '${name}' not found.</span>`]
+      }
+    } else if (cmdLower === 'become_sponsor') {
+      output = [`<span class="text-green-400">Opening email client...</span>`]
+      setTimeout(() => {
+        window.location.href = 'mailto:cysybeijing@163.com'
+      }, 100)
+    } else {
+      // 尝试匹配赞助商名称
+      const sponsor = sponsorLines.find(s => s.name.toLowerCase().includes(cmdLower))
+      if (sponsor) {
+        openSponsorModal(sponsor.name)
+        output = [`<span class="text-green-400">Opening ${sponsor.name}...</span>`]
+      } else {
+        output = [
+          `<span class="text-red-400">bash: ${cmd}: command not found</span>`,
+          `<span class="text-muted-foreground">输入 'help' 查看可用命令</span>`
+        ]
+      }
+    }
+    
+    commandHistory.value.push({
+      command: cmd,
+      output,
+      clickableSponsors: clickableSponsors.length > 0 ? clickableSponsors : undefined
+    })
+    
+    commandInput.value = ''
+  }
+}
+
+// 打开联系邮箱
+const openContactEmail = () => {
+  window.location.href = 'mailto:cysybeijing@163.com'
+}
+
+// Intersection Observer 触发动画
+const terminalRef = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !isTerminalVisible.value) {
+          startTypewriter()
+        }
+      })
+    },
+    { threshold: 0.3 }
+  )
+  
+  if (terminalRef.value) {
+    observer.observe(terminalRef.value)
+  }
+})
 </script>
 
 <template>
   <section id="sponsors" class="py-24 px-6">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-4xl mx-auto">
       <div
         v-motion
         :initial="pixelSlideIn.initial"
@@ -111,145 +311,161 @@ const sponsorCard = {
         v-motion
         :initial="pixelFadeIn.initial"
         :visible-once="pixelFadeIn.visibleOnce"
-        class="font-pixel-cn text-2xl md:text-3xl mb-12"
+        class="font-pixel-cn text-2xl md:text-3xl mb-8"
       >
         合作伙伴
       </h2>
 
-      <!-- 赛事指导单位 -->
-      <div class="mb-12">
-        <h3
-          v-motion
-          :initial="pixelFadeIn.initial"
-          :visible-once="pixelFadeIn.visibleOnce"
-          class="font-pixel text-xs text-primary/70 mb-6"
-        >
-          ◆ 赛事指导单位
-        </h3>
-        <div
-          v-motion
-          class="grid grid-cols-2 md:grid-cols-3 gap-4"
-          :initial="staggerContainer.initial"
-          :visible-once="staggerContainer.visibleOnce"
-        >
-          <div
-            v-for="sponsor in guidanceSponsors"
-            :key="sponsor.name"
-            v-motion
-            :initial="sponsorCard.initial"
-            :visible-once="sponsorCard.visibleOnce"
-            class="aspect-[2/1] pixel-card flex items-center justify-center p-4 cursor-pointer group"
-            style="background: #d4c6e8 !important;"
-            :hover="{ scale: 1.05, y: -5, boxShadow: '5px 5px 0 0 hsl(160 60% 45% / 0.3)' }"
-            :transition="{ type: 'spring', stiffness: 400, damping: 25 }"
-            @click="openSponsorModal(sponsor)"
-          >
-            <img
-              :src="logoSrc(sponsor.logo)"
-              :alt="sponsor.name"
-              class="max-h-12 max-w-full object-contain filter brightness-100 group-hover:brightness-110 transition-all"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- 赛道支持单位 -->
-      <div class="mb-12">
-        <h3
-          v-motion
-          :initial="pixelFadeIn.initial"
-          :visible-once="pixelFadeIn.visibleOnce"
-          class="font-pixel text-xs text-primary/70 mb-6"
-        >
-          ◆ 赛道支持单位
-        </h3>
-        <div
-          v-motion
-          class="grid grid-cols-2 md:grid-cols-5 gap-4"
-          :initial="staggerContainer.initial"
-          :visible-once="staggerContainer.visibleOnce"
-        >
-          <div
-            v-for="sponsor in trackSponsors"
-            :key="sponsor.name"
-            v-motion
-            :initial="sponsorCard.initial"
-            :visible-once="sponsorCard.visibleOnce"
-            class="aspect-[2/1] pixel-card flex items-center justify-center p-4 cursor-pointer group"
-            style="background: #d4c6e8 !important;"
-            :hover="{ scale: 1.05, y: -5, boxShadow: '5px 5px 0 0 hsl(160 60% 45% / 0.3)' }"
-            :transition="{ type: 'spring', stiffness: 400, damping: 25 }"
-            @click="openSponsorModal(sponsor)"
-          >
-            <img
-              :src="logoSrc(sponsor.logo)"
-              :alt="sponsor.name"
-              class="max-h-10 max-w-full object-contain filter brightness-100 group-hover:brightness-110 transition-all"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- 社区伙伴 -->
-      <div class="mb-8">
-        <h3
-          v-motion
-          :initial="pixelFadeIn.initial"
-          :visible-once="pixelFadeIn.visibleOnce"
-          class="font-pixel text-xs text-primary/70 mb-6"
-        >
-          ◆ 社区伙伴
-        </h3>
-        <div
-          v-motion
-          class="grid grid-cols-3 md:grid-cols-3 gap-4"
-          :initial="staggerContainer.initial"
-          :visible-once="staggerContainer.visibleOnce"
-        >
-          <div
-            v-for="sponsor in communityPartners"
-            :key="sponsor.name"
-            v-motion
-            :initial="sponsorCard.initial"
-            :visible-once="sponsorCard.visibleOnce"
-            class="aspect-[2/1] pixel-card flex items-center justify-center p-4 cursor-pointer group"
-            style="background: #d4c6e8 !important;"
-            :hover="{ scale: 1.05, y: -5, boxShadow: '5px 5px 0 0 hsl(160 60% 45% / 0.3)' }"
-            :transition="{ type: 'spring', stiffness: 400, damping: 25 }"
-            @click="openSponsorModal(sponsor)"
-          >
-            <img
-              :src="logoSrc(sponsor.logo)"
-              :alt="sponsor.name"
-              class="max-h-8 max-w-full object-contain filter brightness-100 group-hover:brightness-110 transition-all"
-            />
-          </div>
-        </div>
-      </div>
-
+      <!-- 终端窗口 - 对齐 error.vue 风格 -->
       <div
+        ref="terminalRef"
         v-motion
-        :initial="{ opacity: 0, y: 10 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, delay: 600 } }"
-        class="mt-8 text-center space-y-4"
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 500 } }"
+        class="pixel-card overflow-hidden"
       >
-        <a
-          href="mailto:cysybeijing@163.com"
-          v-motion
-          class="font-pixel-cn text-sm text-primary hover:underline inline-block"
-          :hover="{ x: 5 }"
-        >
-          ▶ 成为赞助商
-        </a>
-        <div>
+        <!-- Terminal Header -->
+        <div class="flex items-center gap-2 px-4 py-3 bg-card border-b-2 border-border/50">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          </div>
+          <span class="ml-4 font-pixel text-xs text-muted-foreground flex-1 text-center">
+            ~/geekday/sponsors
+          </span>
           <NuxtLink
             to="/sponsors"
-            v-motion
-            class="inline-block font-pixel text-xs text-primary hover:text-[#B185DB] transition-colors"
-            :hover="{ x: 5 }"
+            class="font-pixel text-xs text-primary hover:text-primary/80 transition-colors"
           >
-            [ READ MORE... ]
+            [MORE]
           </NuxtLink>
+        </div>
+
+        <!-- Terminal Content -->
+        <div class="p-6 bg-[#0a0f0a]/80 backdrop-blur-sm font-mono min-h-[400px] max-h-[500px] overflow-y-auto">
+          <!-- 欢迎信息 -->
+          <div class="flex items-start gap-2 mb-4">
+            <span class="text-primary font-pixel text-xs whitespace-nowrap">geek@23.5N:~$</span>
+            <span class="font-pixel-cn text-sm text-foreground/80">cat sponsors.md</span>
+          </div>
+
+          <!-- Separator -->
+          <div class="border-t border-dashed border-primary/30 mb-4"></div>
+
+          <!-- 分类标题 - 指导单位 -->
+          <div v-if="visibleLines >= 1" class="mb-2">
+            <span class="text-yellow-600 font-pixel text-xs"># 指导单位</span>
+          </div>
+
+          <!-- 赞助商列表 - 打字机效果 -->
+          <template v-for="(sponsor, index) in sponsorLines" :key="sponsor.name">
+            <!-- 分类标题 -->
+            <div 
+              v-if="visibleLines > index && sponsor.category === 'organizer' && index === 3" 
+              class="mt-4 mb-2"
+            >
+              <span class="text-orange-600 font-pixel text-xs"># 主办单位</span>
+            </div>
+            <div 
+              v-if="visibleLines > index && sponsor.category === 'guidance' && index === 4" 
+              class="mt-4 mb-2"
+            >
+              <span class="text-cyan-600 font-pixel text-xs"># 赛事指导单位</span>
+            </div>
+            <div 
+              v-if="visibleLines > index && sponsor.category === 'track' && index === 11" 
+              class="mt-4 mb-2"
+            >
+              <span class="text-green-600 font-pixel text-xs"># 赛道支持单位</span>
+            </div>
+            <div 
+              v-if="visibleLines > index && sponsor.category === 'community' && index === 18" 
+              class="mt-4 mb-2"
+            >
+              <span class="text-purple-600 font-pixel text-xs"># 社区伙伴</span>
+            </div>
+
+            <!-- 赞助商行 -->
+            <div 
+              v-if="visibleLines > index"
+              class="sponsor-line flex items-center gap-2 py-1 cursor-pointer hover:bg-primary/5 px-2 -mx-2 rounded transition-colors"
+              @click="openSponsorModal(sponsor.name)"
+            >
+              <span class="text-muted-foreground font-pixel text-xs">-</span>
+              <span :class="[sponsor.color, 'font-pixel-cn text-sm hover:underline']">{{ sponsor.name }}</span>
+            </div>
+          </template>
+
+          <!-- 命令历史记录 -->
+          <div v-if="commandHistory.length > 0" class="mt-6 border-t border-dashed border-primary/30 pt-4">
+            <div v-for="(entry, i) in commandHistory" :key="i" class="mb-4">
+              <!-- 命令行 -->
+              <div class="flex items-start gap-2">
+                <span class="text-primary font-pixel text-xs whitespace-nowrap">geek@23.5N:~$</span>
+                <span class="font-pixel-cn text-sm text-foreground/80">{{ entry.command }}</span>
+              </div>
+              <!-- 输出 -->
+              <div class="ml-[88px] mt-1">
+                <p 
+                  v-for="(line, j) in entry.output" 
+                  :key="j" 
+                  class="font-pixel-cn text-sm text-foreground/80"
+                  v-html="line"
+                ></p>
+                <!-- 可点击的赞助商列表 -->
+                <div 
+                  v-for="sponsor in (entry.clickableSponsors || [])" 
+                  :key="sponsor.name"
+                  class="flex items-center gap-2 py-0.5 cursor-pointer hover:bg-primary/5 px-2 -mx-2 rounded transition-colors"
+                  @click="openSponsorModal(sponsor.name)"
+                >
+                  <span class="text-muted-foreground font-pixel text-xs">-</span>
+                  <span :class="[sponsor.color, 'font-pixel-cn text-sm hover:underline']">{{ sponsor.name }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- become_sponsor 命令 -->
+          <div 
+            v-if="isTypingComplete"
+            class="mt-6 border-t border-dashed border-primary/30 pt-4"
+          >
+            <div 
+              class="become-sponsor flex items-center gap-2 cursor-pointer hover:bg-primary/5 px-2 -mx-2 py-1 rounded transition-colors"
+              @click="openContactEmail"
+            >
+              <span class="text-primary font-pixel text-xs whitespace-nowrap">geek@23.5N:~$</span>
+              <span class="font-pixel-cn text-sm text-pink-400 hover:underline">become_sponsor</span>
+              <span class="font-pixel-cn text-sm text-muted-foreground">--email cysybeijing@163.com</span>
+            </div>
+          </div>
+
+          <!-- 命令输入行 -->
+          <div v-if="isTypingComplete" class="mt-4 flex items-center gap-2">
+            <span class="text-primary font-pixel text-xs whitespace-nowrap">geek@23.5N:~$</span>
+            <input
+              ref="terminalInput"
+              v-model="commandInput"
+              type="text"
+              class="flex-1 bg-transparent border-none outline-none font-pixel-cn text-sm text-foreground/80 caret-primary"
+              placeholder="输入 help 查看命令..."
+              autocomplete="off"
+              spellcheck="false"
+              @keydown="handleCommand"
+            />
+            <span 
+              class="w-2 h-4 bg-primary"
+              :class="{ 'opacity-0': !showCursor }"
+            ></span>
+          </div>
+
+          <!-- 打字中的光标 -->
+          <div v-else class="mt-4 flex items-center gap-2">
+            <span class="text-primary font-pixel text-xs whitespace-nowrap">geek@23.5N:~$</span>
+            <span class="w-2 h-4 bg-primary animate-pulse"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -262,3 +478,37 @@ const sponsorCard = {
     @close="closeSponsorModal"
   />
 </template>
+
+<style scoped>
+.sponsor-line {
+  animation: fadeIn 0.1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.become-sponsor {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+input::placeholder {
+  @apply text-muted-foreground/50;
+}
+</style>

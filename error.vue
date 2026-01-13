@@ -261,13 +261,7 @@ function executeCommand() {
       break
       
     case 'help':
-      output = `<span class="text-primary">可用命令:</span><br>
-  <span class="text-cyan-400">cd &lt;path&gt;</span>  - 导航到指定路径<br>
-  <span class="text-cyan-400">cd /</span>       - 回到首页<br>
-  <span class="text-cyan-400">ls</span>         - 列出可用页面<br>
-  <span class="text-cyan-400">find</span>       - 显示完整页面树<br>
-  <span class="text-cyan-400">clear</span>      - 清空终端<br>
-  <span class="text-cyan-400">help</span>       - 显示此帮助`
+      output = `<span class="text-primary">可用命令:</span><br>  <span class="text-cyan-400">cd &lt;path&gt;</span>  - 导航到指定路径<br>  <span class="text-cyan-400">cd /</span>       - 回到首页<br>  <span class="text-cyan-400">ls</span>         - 列出可用页面<br>  <span class="text-cyan-400">find</span>       - 显示完整页面树<br>  <span class="text-cyan-400">download</span>   - 下载参赛秩序手册<br>  <span class="text-cyan-400">clear</span>      - 清空终端<br>  <span class="text-cyan-400">help</span>       - 显示此帮助`
       break
       
     case 'pwd':
@@ -278,6 +272,13 @@ function executeCommand() {
       commandHistory.value = []
       currentCommand.value = ''
       return
+    
+    case 'download':
+    case 'dl':
+    case 'get':
+      output = '📥 正在下载参赛秩序手册...'
+      window.open('https://raw.githubusercontent.com/23-5-N-GeekDay/GeekDay2026/refs/heads/main/2026%E5%8C%97%E5%9B%9E%E5%BD%92%E7%BA%BF%E6%9E%81%E5%AE%A2%E8%8A%82%E9%BB%91%E5%AE%A2%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%8F%82%E8%B5%9B%E7%A7%A9%E5%BA%8F%E5%86%8C.pdf', '_blank')
+      break
       
     default:
       output = `<span class="text-red-400">bash: ${command}: command not found</span><br><span class="text-muted-foreground">${funnyErrors[Math.floor(Math.random() * funnyErrors.length)]}</span>`

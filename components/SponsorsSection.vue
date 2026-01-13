@@ -204,6 +204,7 @@ const handleCommand = (e: KeyboardEvent) => {
         '  <span class="text-cyan-400">ls [category]</span>  - 列出赞助商',
         '  <span class="text-cyan-400">cat [name]</span>     - 查看赞助商详情',
         '  <span class="text-cyan-400">more</span>           - 查看完整赞助商页面',
+        '  <span class="text-cyan-400">download</span>       - 下载参赛秩序手册',
         '  <span class="text-cyan-400">clear</span>          - 清空历史',
         '  <span class="text-cyan-400">become_sponsor</span> - 成为赞助商',
       ]
@@ -257,6 +258,11 @@ const handleCommand = (e: KeyboardEvent) => {
       output = [`<span class="text-green-400">Opening email client...</span>`]
       setTimeout(() => {
         window.location.href = 'mailto:cysybeijing@163.com'
+      }, 100)
+    } else if (cmdLower === 'download' || cmdLower === 'dl' || cmdLower === 'get') {
+      output = [`<span class="text-green-400">📥 正在下载参赛秩序手册...</span>`]
+      setTimeout(() => {
+        window.open('https://raw.githubusercontent.com/23-5-N-GeekDay/GeekDay2026/refs/heads/main/2026%E5%8C%97%E5%9B%9E%E5%BD%92%E7%BA%BF%E6%9E%81%E5%AE%A2%E8%8A%82%E9%BB%91%E5%AE%A2%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%8F%82%E8%B5%9B%E7%A7%A9%E5%BA%8F%E5%86%8C.pdf', '_blank')
       }, 100)
     } else {
       // 尝试匹配赞助商名称

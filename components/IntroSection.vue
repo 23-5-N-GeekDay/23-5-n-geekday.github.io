@@ -9,7 +9,7 @@ const towerSrc = computed(() => withBase('/images/tower.jpg', baseURL))
 
 <template>
   <section id="intro" class="py-20 px-6" ref="target">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-4xl mx-auto">
       <!-- Tower Image -->
       <div
         v-motion

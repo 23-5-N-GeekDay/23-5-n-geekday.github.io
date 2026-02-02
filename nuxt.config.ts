@@ -1,6 +1,14 @@
+const baseURL = process.env.NUXT_PUBLIC_BASE_URL || '/'
+const publicSiteUrl = process.env.NUXT_PUBLIC_SITE_URL || process.env.NUXT_PUBLIC_CDN_URL || ''
+const absoluteSiteUrl = /^https?:\/\//.test(publicSiteUrl) ? publicSiteUrl : ''
+const ogImagePath = `${baseURL.replace(/\/$/, '')}/og.png` || '/og.png'
+const ogPagePath = baseURL
+const ogImageUrl = absoluteSiteUrl ? new URL(ogImagePath, absoluteSiteUrl).toString() : ogImagePath
+const ogPageUrl = absoluteSiteUrl ? new URL(ogPagePath, absoluteSiteUrl).toString() : undefined
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-12',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || '/',
@@ -12,6 +20,17 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: '北回归线极客节 - 48小时黑客马拉松 | 2026年2月' },
         { name: 'theme-color', content: '#1a1a4e' },
+
+        // Open Graph / Twitter
+        { key: 'og:title', property: 'og:title', content: '23.5°N GEEKDAY | 北回归线极客节' },
+        { key: 'og:description', property: 'og:description', content: '北回归线极客节 - 48小时黑客马拉松 | 2026年2月' },
+        { key: 'og:type', property: 'og:type', content: 'website' },
+        { key: 'og:image', property: 'og:image', content: ogImageUrl },
+        ...(ogPageUrl ? [{ key: 'og:url', property: 'og:url', content: ogPageUrl }] : []),
+        { key: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+        { key: 'twitter:title', name: 'twitter:title', content: '23.5°N GEEKDAY | 北回归线极客节' },
+        { key: 'twitter:description', name: 'twitter:description', content: '北回归线极客节 - 48小时黑客马拉松 | 2026年2月' },
+        { key: 'twitter:image', name: 'twitter:image', content: ogImageUrl },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

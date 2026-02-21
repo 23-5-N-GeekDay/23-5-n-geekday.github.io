@@ -27,6 +27,11 @@ const moreItems = [
     { label: 'AI Agent 开发', path: '/workshops/ai-agent-dev' },
     { label: '具身智能入门', path: '/workshops/embodied-ai' },
   ]},
+  { label: '赞助商资源', children: [
+    { label: '资源总览', path: '/resources' },
+    { label: 'AI Agent 赛道资源', path: '/resources/ai-agent' },
+    { label: 'Embodied AI 赛道资源', path: '/resources/embodied-ai' },
+  ]},
   { label: '合作伙伴', path: '/#sponsors' },
 ]
 

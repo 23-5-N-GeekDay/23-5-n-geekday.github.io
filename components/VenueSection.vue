@@ -2,9 +2,10 @@
 import { pixelSlideIn, pixelFadeIn, pixelCardFloat, pixelBuildIn, staggerContainer } from '~/composables/usePixelAnimation'
 
 const details = [
-  { icon: '📅', label: '日期', value: '2026年2月23-25日' },
-  { icon: '⏱️', label: '时长', value: '48小时黑客松+6小时开放活动' },
-  { icon: '📍', label: '地点', value: '潮汕（待公布）' },
+  { icon: '📅', label: '日期', value: '2026年2月22-25日' },
+  { icon: '⏱️', label: '时长', value: '48小时黑客松 + 极客节开放日' },
+  { icon: '🎉', label: '初六地点', value: '汕头高新区潮创智造云谷 2号楼2楼' },
+  { icon: '📍', label: '初七至初九', value: '普宁市潮实高级中学 体艺中心' },
   { icon: '🎫', label: '费用', value: '免费参加（需缴防鸽费）' },
 ]
 

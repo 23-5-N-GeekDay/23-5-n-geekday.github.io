@@ -173,14 +173,17 @@ const availablePages = [
   { path: '/faq', desc: '常见问题 - 报名与参赛须知' },
   { path: '/prizes', desc: '奖项设置 - 奖金池与评分标准' },
   { path: '/sponsors', desc: '合作伙伴 - 指导单位与赞助商' },
-  { path: '/schedule/day0', desc: 'DAY 0 - Kick Off 派对之夜' },
+  { path: '/schedule/day0', desc: 'DAY 0 - Warm-up 派对之夜' },
   { path: '/schedule/day1', desc: 'DAY 1 - Kick Off 开幕 + Hackathon 启动' },
   { path: '/schedule/day2', desc: 'DAY 2 - Hackathon 全天开发' },
-  { path: '/schedule/day3', desc: 'DAY 3 - 作品提交 + 闭幕活动' },
+  { path: '/schedule/day3', desc: 'DAY 3 - 公众开放日 · 闭幕活动' },
   { path: '/tracks/ai-agent', desc: 'AI Agent 赛道 - 大模型智能体' },
   { path: '/tracks/embodied-ai', desc: '具身智能赛道 - 机器人开发' },
   { path: '/workshops/ai-agent-dev', desc: 'AI Agent 工作坊 - 开发实战' },
   { path: '/workshops/embodied-ai', desc: '具身智能工作坊 - 入门教程' },
+  { path: '/resources', desc: '赞助商资源指南 - 平台资源与启用方式总览' },
+  { path: '/resources/ai-agent', desc: 'AI Agent 赛道资源 - TRAE/Tosea/算能启用指南' },
+  { path: '/resources/embodied-ai', desc: 'Embodied AI 赛道资源 - 硬件设备与模型使用指南' },
 ]
 
 const funnyErrors = [
@@ -190,7 +193,7 @@ const funnyErrors = [
   "🚀 命令未找到，但北回归线永远找得到！",
 ]
 
-const findPagesOutput = `<span class="text-primary">📂 可用页面列表:</span><br><br><span class="text-yellow-400">/ 首页</span><br>  └─ <span class="text-cyan-400">/about</span>          关于北归节<br>  └─ <span class="text-cyan-400">/faq</span>            常见问题<br>  └─ <span class="text-cyan-400">/prizes</span>         奖项设置<br>  └─ <span class="text-cyan-400">/sponsors</span>       合作伙伴<br><br><span class="text-yellow-400">/schedule/ 活动日程</span><br>  └─ <span class="text-cyan-400">/schedule/day0</span>  DAY 0 (Kick Off 派对之夜)<br>  └─ <span class="text-cyan-400">/schedule/day1</span>  DAY 1 (Kick Off 开幕 + Hackathon 启动)<br>  └─ <span class="text-cyan-400">/schedule/day2</span>  DAY 2 (Hackathon 全天开发)<br>  └─ <span class="text-cyan-400">/schedule/day3</span>  DAY 3 (作品提交 + 闭幕活动)<br><br><span class="text-yellow-400">/tracks/ 赛道介绍</span><br>  └─ <span class="text-cyan-400">/tracks/ai-agent</span>     AI Agent 大模型智能体<br>  └─ <span class="text-cyan-400">/tracks/embodied-ai</span>  具身智能 机器人开发<br><br><span class="text-yellow-400">/workshops/ 技术工作坊</span><br>  └─ <span class="text-cyan-400">/workshops/ai-agent-dev</span>  AI Agent 开发实战<br>  └─ <span class="text-cyan-400">/workshops/embodied-ai</span>   具身智能入门<br><br><span class="text-muted-foreground">使用 cd &lt;路径&gt; 导航，例如: cd /tracks/ai-agent</span>`
+const findPagesOutput = `<span class="text-primary">📂 可用页面列表:</span><br><br><span class="text-yellow-400">/ 首页</span><br>  └─ <span class="text-cyan-400">/about</span>          关于北归节<br>  └─ <span class="text-cyan-400">/faq</span>            常见问题<br>  └─ <span class="text-cyan-400">/prizes</span>         奖项设置<br>  └─ <span class="text-cyan-400">/sponsors</span>       合作伙伴<br><br><span class="text-yellow-400">/schedule/ 活动日程</span><br>  └─ <span class="text-cyan-400">/schedule/day0</span>  DAY 0 (Warm-up 派对之夜)<br>  └─ <span class="text-cyan-400">/schedule/day1</span>  DAY 1 (Kick Off 开幕 + Hackathon 启动)<br>  └─ <span class="text-cyan-400">/schedule/day2</span>  DAY 2 (Hackathon 全天开发)<br>  └─ <span class="text-cyan-400">/schedule/day3</span>  DAY 3 (公众开放日 · 闭幕活动)<br><br><span class="text-yellow-400">/tracks/ 赛道介绍</span><br>  └─ <span class="text-cyan-400">/tracks/ai-agent</span>     AI Agent 大模型智能体<br>  └─ <span class="text-cyan-400">/tracks/embodied-ai</span>  具身智能 机器人开发<br><br><span class="text-yellow-400">/workshops/ 技术工作坊</span><br>  └─ <span class="text-cyan-400">/workshops/ai-agent-dev</span>  AI Agent 开发实战<br>  └─ <span class="text-cyan-400">/workshops/embodied-ai</span>   具身智能入门<br><br><span class="text-yellow-400">/resources/ 赞助商资源指南</span><br>  └─ <span class="text-pink-400">/resources</span>              资源总览<br>  └─ <span class="text-pink-400">/resources/ai-agent</span>     AI Agent 赛道资源<br>  └─ <span class="text-pink-400">/resources/embodied-ai</span>  Embodied AI 赛道资源<br><br><span class="text-muted-foreground">使用 cd &lt;路径&gt; 导航，例如: cd /resources/ai-agent</span>`
 
 function resetTerminal() {
   commandHistory.value = [
@@ -259,7 +262,10 @@ function executeCommand() {
 <span class="text-cyan-400">/tracks/ai-agent         </span> AI Agent 赛道<br>
 <span class="text-cyan-400">/tracks/embodied-ai      </span> 具身智能赛道<br>
 <span class="text-cyan-400">/workshops/ai-agent-dev  </span> AI Agent 工作坊<br>
-<span class="text-cyan-400">/workshops/embodied-ai   </span> 具身智能工作坊`
+<span class="text-cyan-400">/workshops/embodied-ai   </span> 具身智能工作坊<br>
+<span class="text-pink-400">/resources               </span> 赞助商资源指南<br>
+<span class="text-pink-400">/resources/ai-agent      </span> AI Agent 赛道资源<br>
+<span class="text-pink-400">/resources/embodied-ai   </span> Embodied AI 赛道资源`
       break
       
     case 'help':

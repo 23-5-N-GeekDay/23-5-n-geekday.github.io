@@ -45,6 +45,9 @@ jobs:
 
       - name: Generate static site
         run: pnpm run generate
+        env:
+          # Used to render absolute OG/Twitter image URLs during prerender
+          NUXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

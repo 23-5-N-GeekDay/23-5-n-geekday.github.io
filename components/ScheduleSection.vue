@@ -2,31 +2,31 @@
 import { pixelSlideIn, pixelFadeIn, pixelScanIn } from '~/composables/usePixelAnimation'
 
 const scheduleDay0 = [
-  { time: '18:00', event: 'Warm-up Party 派对之夜', icon: '🎉' },
-  { time: '18:00-22:00', event: '破冰交流 & 组队', icon: '🤝' },
-  { time: '全程', event: '轻食饮品供应', icon: '🍕' },
+  { time: '18:30-19:00', event: '观众入场', icon: '🚪' },
+  { time: '19:00-19:30', event: '领导致辞', icon: '🎙️' },
+  { time: '19:30-21:30', event: '选手自我介绍 · 队伍路演招募', icon: '🤝' },
+  { time: '21:30-22:30', event: '部分选手前往普宁潮实', icon: '🚌' },
 ]
 
 const scheduleDay1 = [
-  { time: '10:00-11:00', event: 'Kick Off 开幕', icon: '🎤' },
-  { time: '11:00', event: 'Hackathon 正式开始', icon: '⚡' },
-  { time: '11:00-24:00', event: '全天开发 + 技术支持', icon: '💻' },
+  { time: '07:30-09:00', event: '剩余选手前往普宁', icon: '🚌' },
+  { time: '09:00-10:00', event: '签到入场', icon: '✅' },
+  { time: '10:00-11:00', event: 'Kick Off 开幕仪式', icon: '🎤' },
+  { time: '11:00起', event: 'Hackathon 正式开始（48小时）', icon: '⚡' },
 ]
 
 const scheduleDay2 = [
   { time: '00:00-24:00', event: 'Hackathon 持续开发', icon: '🚀' },
-  { time: '全天', event: '技术导师答疑', icon: '👨‍🏫' },
-  { time: '全天', event: '硬件资源支持', icon: '🛠️' },
-  { time: '20:00-20:30', event: 'MakerShow 材料收集', icon: '📚' },
+  { time: '全天', event: '技术导师答疑 & 硬件资源支持', icon: '🛠️' },
 ]
 
 const scheduleDay3 = [
-  { time: '00:00-11:00', event: 'Final Sprint 最后冲刺', icon: '⏰' },
-  { time: '11:00', event: '作品提交截止', icon: '📦' },
-  { time: '12:30-14:30', event: 'Nerd Bar 圆桌酒会 + MakerShow 科技庙会', icon: '🍻' },
-  { time: '14:30-15:30', event: 'Closing Forum 闭幕论坛', icon: '🏆' },
-  { time: '18:00-22:00', event: 'After Party 派对之夜', icon: '🎊' },
+  { time: '09:00-11:00', event: 'Hackathon 最后冲刺 + 观众入场 & 园游会', icon: '⏰' },
+  { time: '11:20-13:20', event: '午餐会', icon: '🍱' },
+  { time: '12:30-14:30', event: 'Nerd Bar 圆桌酒会 + Maker Show 科技庙会', icon: '🍻' },
+  { time: '15:30-16:30', event: 'Closing 闭幕仪式', icon: '🏆' },
 ]
+
 
 const scheduleItemVariants = {
   initial: { opacity: 0, x: -40, scale: 0.95 },
@@ -42,9 +42,8 @@ const scheduleItemVariants = {
   },
 }
 
-const activeDay = ref(0)
+const activeDay = ref(1)
 const currentSchedule = computed(() => {
-  if (activeDay.value === 0) return scheduleDay0
   if (activeDay.value === 1) return scheduleDay1
   if (activeDay.value === 2) return scheduleDay2
   return scheduleDay3
@@ -75,6 +74,22 @@ const activeDayPath = computed(() => `/schedule/day${activeDay.value}`)
         活动日程
       </h2>
 
+      <!-- DAY 0 派对之夜 独立展示 -->
+      <NuxtLink
+        to="/schedule/day0"
+        v-motion
+        :initial="pixelFadeIn.initial"
+        :visible-once="pixelFadeIn.visibleOnce"
+        class="flex items-center gap-3 mb-6 pixel-card px-4 py-3 hover:border-primary/50 transition-colors group"
+      >
+        <span class="text-xl">🎉</span>
+        <div class="flex-1">
+          <span class="font-pixel text-xs text-primary">2月22日（正月初六）</span>
+          <span class="font-pixel-cn text-sm text-foreground ml-3">Warm-up Party 派对之夜</span>
+        </div>
+        <span class="font-pixel text-xs text-muted-foreground group-hover:text-primary transition-colors">[ 查看详情 → ]</span>
+      </NuxtLink>
+
       <div
         v-motion
         :initial="pixelFadeIn.initial"
@@ -82,7 +97,7 @@ const activeDayPath = computed(() => `/schedule/day${activeDay.value}`)
         class="flex gap-3 mb-8"
       >
         <button
-          v-for="day in [0, 1, 2, 3]"
+          v-for="day in [1, 2, 3]"
           :key="day"
           @click="activeDay = day"
           class="font-pixel text-xs px-6 py-3 transition-all"

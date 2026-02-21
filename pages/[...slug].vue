@@ -173,6 +173,27 @@
             >
               Embodied AI
             </NuxtLink>
+            <NuxtLink
+              v-if="route.path.includes('/resources')"
+              to="/resources"
+              :class="['pixel-card px-3 py-2 font-pixel text-xs transition-colors', route.path === '/resources' ? 'text-primary border-primary/50' : 'text-muted-foreground hover:text-foreground']"
+            >
+              总览
+            </NuxtLink>
+            <NuxtLink
+              v-if="route.path.includes('/resources')"
+              to="/resources/ai-agent"
+              :class="['pixel-card px-3 py-2 font-pixel text-xs transition-colors', route.path === '/resources/ai-agent' ? 'text-primary border-primary/50' : 'text-muted-foreground hover:text-foreground']"
+            >
+              AI Agent
+            </NuxtLink>
+            <NuxtLink
+              v-if="route.path.includes('/resources')"
+              to="/resources/embodied-ai"
+              :class="['pixel-card px-3 py-2 font-pixel text-xs transition-colors', route.path === '/resources/embodied-ai' ? 'text-primary border-primary/50' : 'text-muted-foreground hover:text-foreground']"
+            >
+              Embodied AI
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -282,9 +303,12 @@ const availablePages = [
   { path: '/tracks/embodied-ai', desc: '具身智能赛道 - 机器人开发' },
   { path: '/workshops/ai-agent-dev', desc: 'AI Agent 工作坊 - 开发实战' },
   { path: '/workshops/embodied-ai', desc: '具身智能工作坊 - 入门教程' },
+  { path: '/resources', desc: '赞助商资源指南 - 平台资源与启用方式总览' },
+  { path: '/resources/ai-agent', desc: 'AI Agent 赛道资源 - 飞桨/魔搭/算能等平台启用' },
+  { path: '/resources/embodied-ai', desc: 'Embodied AI 赛道资源 - 硬件设备与模型使用指南' },
 ]
 
-const findPagesOutput = `<span class="text-primary">📂 可用页面列表:</span><br><br><span class="text-yellow-400">/ 首页</span><br>  └─ <span class="text-cyan-400">/about</span>          关于北归节<br>  └─ <span class="text-cyan-400">/faq</span>            常见问题<br>  └─ <span class="text-cyan-400">/prizes</span>         奖项设置<br>  └─ <span class="text-cyan-400">/sponsors</span>       合作伙伴<br><br><span class="text-yellow-400">/schedule/ 活动日程</span><br>  └─ <span class="text-cyan-400">/schedule/day0</span>  DAY 0 (Kick Off 派对之夜)<br>  └─ <span class="text-cyan-400">/schedule/day1</span>  DAY 1 (Kick Off 开幕 + Hackathon 启动)<br>  └─ <span class="text-cyan-400">/schedule/day2</span>  DAY 2 (Hackathon 全天开发)<br>  └─ <span class="text-cyan-400">/schedule/day3</span>  DAY 3 (作品提交 + 闭幕活动)<br><br><span class="text-yellow-400">/tracks/ 赛道介绍</span><br>  └─ <span class="text-cyan-400">/tracks/ai-agent</span>     AI Agent 大模型智能体<br>  └─ <span class="text-cyan-400">/tracks/embodied-ai</span>  具身智能 机器人开发<br><br><span class="text-yellow-400">/workshops/ 技术工作坊</span><br>  └─ <span class="text-cyan-400">/workshops/ai-agent-dev</span>  AI Agent 开发实战<br>  └─ <span class="text-cyan-400">/workshops/embodied-ai</span>   具身智能入门<br><br><span class="text-muted-foreground">使用 cd &lt;路径&gt; 导航，例如: cd /tracks/ai-agent</span>`
+const findPagesOutput = `<span class="text-primary">📂 可用页面列表:</span><br><br><span class="text-yellow-400">/ 首页</span><br>  └─ <span class="text-cyan-400">/about</span>          关于北归节<br>  └─ <span class="text-cyan-400">/faq</span>            常见问题<br>  └─ <span class="text-cyan-400">/prizes</span>         奖项设置<br>  └─ <span class="text-cyan-400">/sponsors</span>       合作伙伴<br><br><span class="text-yellow-400">/schedule/ 活动日程</span><br>  └─ <span class="text-cyan-400">/schedule/day0</span>  DAY 0 (Kick Off 派对之夜)<br>  └─ <span class="text-cyan-400">/schedule/day1</span>  DAY 1 (Kick Off 开幕 + Hackathon 启动)<br>  └─ <span class="text-cyan-400">/schedule/day2</span>  DAY 2 (Hackathon 全天开发)<br>  └─ <span class="text-cyan-400">/schedule/day3</span>  DAY 3 (作品提交 + 闭幕活动)<br><br><span class="text-yellow-400">/tracks/ 赛道介绍</span><br>  └─ <span class="text-cyan-400">/tracks/ai-agent</span>     AI Agent 大模型智能体<br>  └─ <span class="text-cyan-400">/tracks/embodied-ai</span>  具身智能 机器人开发<br><br><span class="text-yellow-400">/workshops/ 技术工作坊</span><br>  └─ <span class="text-cyan-400">/workshops/ai-agent-dev</span>  AI Agent 开发实战<br>  └─ <span class="text-cyan-400">/workshops/embodied-ai</span>   具身智能入门<br><br><span class="text-yellow-400">/resources/ 赞助商资源指南</span><br>  └─ <span class="text-pink-400">/resources</span>              资源总览<br>  └─ <span class="text-pink-400">/resources/ai-agent</span>     AI Agent 赛道资源<br>  └─ <span class="text-pink-400">/resources/embodied-ai</span>  Embodied AI 赛道资源<br><br><span class="text-muted-foreground">使用 cd &lt;路径&gt; 导航，例如: cd /resources/ai-agent</span>`
 
 function executeCommand() {
   const cmd = currentCommand.value.trim()

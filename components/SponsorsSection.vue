@@ -5,7 +5,7 @@ import SponsorModal from './SponsorModal.vue'
 
 // 赞助商数据
 const sponsorDescriptions: Record<string, string> = {
-  'TRAE': '为每位选手免费提供为期一个月的 Trae Pro 会员服务。选手可充分利用 Trae 提供的强大 AI 开发环境、高效的智能体编排工具以及丰富的知识库与连接器。',
+  'TRAE': '为每位选手免费提供为期4天的 Trae Pro 会员服务。选手可充分利用 Trae 提供的强大 AI 开发环境、高效的智能体编排工具以及丰富的知识库与连接器。',
   '算能科技': '由比特大陆孵化的 SophNet 云算力平台基于算能自研 TPU 算力，为开发者提供一站式模型服务。',
   '百度飞桨星河社区': '提供全面的深度学习框架和丰富的预训练模型库。',
   '阿里云魔搭社区': '提供适配开源大模型的应用开发框架和多模态模型服务。',

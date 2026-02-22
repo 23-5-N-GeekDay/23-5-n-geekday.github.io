@@ -122,7 +122,7 @@ curl -X POST "https://www.sophnet.com/api/open-apis/projects/easyllms/videogener
 
 > 📌 **注意**：TRAE 目前为**海外版本**，访问 trae.ai 及使用客户端需要**科学上网**，请提前准备好网络环境。会员权益通过组委会提供的**兑换码**激活。
 
-**提供内容**：每位选手免费获得 **1个月 TraePro 会员**
+**提供内容**：每位选手免费获得 **4天 TraePro 会员**
 
 ### 启用步骤
 

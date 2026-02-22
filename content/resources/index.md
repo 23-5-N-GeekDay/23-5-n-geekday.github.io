@@ -27,7 +27,7 @@ date: 2026-02-18
 | 赞助商 | 资源类型 | 备注 |
 |--------|----------|------|
 | **算能科技** | SophNet API 调用额度（LLM + 视觉模型）| 兑换码激活 |
-| **TRAE** | TraePro 会员（1个月）| 海外版本，使用兑换码激活 |
+| **TRAE** | TraePro 会员（4天）| 海外版本，使用兑换码激活 |
 | **[Tosea.ai](https://tosea.ai)** | AI Slides 智能幻灯片生成 | 通过 Stripe Promotion Code 激活 |
 
 ### Embodied AI 赛道
@@ -40,7 +40,7 @@ date: 2026-02-18
 | **地瓜机器人** | RDK X5 开发者套件 | 现场提供 |
 | **SeeedStudio** | 机械臂 + 传感器套件 | 现场提供 |
 | **拓竹Cyberbrick** | 模块化机器人 + 3D打印机 | 现场提供 |
-| **TRAE** | TraePro 会员（1个月）| 海外版本，使用兑换码激活 |
+| **TRAE** | TraePro 会员（4天）| 海外版本，使用兑换码激活 |
 
 <br>
 
